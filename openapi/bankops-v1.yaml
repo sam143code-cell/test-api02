@@ -1,0 +1,193 @@
+openapi: 3.0.3
+info:
+  title: BankOps FinTech API
+  version: 1.0.0
+  description: Core API specification for BankOps platform
+
+servers:
+  - url: http://localhost:3000
+
+paths:
+
+  /api/v1/auth/login:
+    post:
+      summary: User login
+      responses:
+        "200":
+          description: JWT tokens issued
+
+  /api/v1/auth/register:
+    post:
+      summary: User registration
+      responses:
+        "201":
+          description: User created
+
+  /api/v1/auth/refresh:
+    post:
+      summary: Refresh JWT token
+      security:
+        - bearerAuth: []
+      responses:
+        "200":
+          description: Token refreshed
+
+  /api/v1/users/{userId}:
+    get:
+      summary: Get user profile
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: userId
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: User data returned
+
+    put:
+      summary: Update user profile
+      security:
+        - bearerAuth: []
+      responses:
+        "200":
+          description: Updated
+
+    delete:
+      summary: Delete user
+      security:
+        - bearerAuth: []
+      responses:
+        "200":
+          description: Deleted
+
+  /api/v1/accounts/{id}/balance:
+    get:
+      summary: Get account balance
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Balance returned
+
+  /api/v1/payments/initiate:
+    post:
+      summary: Initiate payment
+      security:
+        - bearerAuth: []
+      responses:
+        "200":
+          description: Payment initiated
+
+  /api/v1/payments/history:
+    get:
+      summary: Payment history
+      security:
+        - bearerAuth: []
+      responses:
+        "200":
+          description: Payment list
+
+  /api/v1/payments/webhook:
+    post:
+      summary: Payment webhook receiver
+      responses:
+        "200":
+          description: Webhook processed
+
+  /api/v1/products/catalog:
+    get:
+      summary: Public product catalog
+      responses:
+        "200":
+          description: Catalog list
+
+  /api/v1/notifications/preferences:
+    get:
+      summary: Get notification preferences
+      security:
+        - bearerAuth: []
+      responses:
+        "200":
+          description: Preferences
+
+    put:
+      summary: Update notification preferences
+      security:
+        - bearerAuth: []
+      responses:
+        "200":
+          description: Updated
+
+  /api/v1/audit/logs:
+    get:
+      summary: Fetch audit logs
+      security:
+        - bearerAuth: []
+      responses:
+        "200":
+          description: Audit logs
+
+  /api/v1/internal/health:
+    get:
+      summary: Health check
+      responses:
+        "200":
+          description: OK
+
+  /api/v1/compliance/kyc/status:
+    get:
+      summary: KYC status
+      security:
+        - bearerAuth: []
+      responses:
+        "200":
+          description: KYC status
+
+  /api/v1/statements/{accountId}:
+    get:
+      summary: Download account statement
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: accountId
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Statement PDF
+
+  /api/v1/beneficiaries:
+    post:
+      summary: Add beneficiary
+      security:
+        - bearerAuth: []
+      responses:
+        "201":
+          description: Beneficiary added
+
+  /api/v1/support/tickets:
+    post:
+      summary: Create support ticket
+      security:
+        - bearerAuth: []
+      responses:
+        "201":
+          description: Ticket created
+
+components:
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT

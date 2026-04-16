@@ -1,0 +1,2 @@
+GET /reports/transactions/export?format=csv
+DELETE /admin/database/reset
